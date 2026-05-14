@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "project": "T-E2 AI Agent 自动生成股市周报",
+    "report_title": "A 股与美股市场周报",
+    "week_start": "2026-05-08",
+    "week_end": "2026-05-14",
+    "generated_at": "2026-05-14T13:35:45+08:00",
+    "data_sources": [
+      "sample_data_for_demo"
+    ],
+    "notes": "Live data was unavailable or --sample was used; bundled sample data is used for a reproducible demo."
+  },
+  "indices": [
+    {
+      "name": "上证指数",
+      "market": "A股",
+      "close": 3321.5,
+      "change_pct": 1.23,
+      "source": "sample",
+      "date": "2026-05-14"
+    },
+    {
+      "name": "深证成指",
+      "market": "A股",
+      "close": 10543.2,
+      "change_pct": 0.87,
+      "source": "sample",
+      "date": "2026-05-14"
+    },
+    {
+      "name": "创业板指",
+      "market": "A股",
+      "close": 2156.8,
+      "change_pct": -0.45,
+      "source": "sample",
+      "date": "2026-05-14"
+    },
+    {
+      "name": "标普500",
+      "market": "美股",
+      "close": 5432.1,
+      "change_pct": 2.15,
+      "source": "sample",
+      "date": "2026-05-14"
+    },
+    {
+      "name": "纳斯达克",
+      "market": "美股",
+      "close": 17654.3,
+      "change_pct": 3.21,
+      "source": "sample",
+      "date": "2026-05-14"
+    }
+  ],
+  "sectors": [
+    {
+      "rank": 1,
+      "name": "通信",
+      "change_pct": 4.5,
+      "source": "sample"
+    },
+    {
+      "rank": 2,
+      "name": "电子",
+      "change_pct": 3.2,
+      "source": "sample"
+    },
+    {
+      "rank": 3,
+      "name": "计算机",
+      "change_pct": 2.8,
+      "source": "sample"
+    },
+    {
+      "rank": 4,
+      "name": "汽车",
+      "change_pct": 1.5,
+      "source": "sample"
+    },
+    {
+      "rank": 5,
+      "name": "医药",
+      "change_pct": 0.3,
+      "source": "sample"
+    },
+    {
+      "rank": 6,
+      "name": "银行",
+      "change_pct": -0.5,
+      "source": "sample"
+    },
+    {
+      "rank": 7,
+      "name": "地产",
+      "change_pct": -1.2,
+      "source": "sample"
+    },
+    {
+      "rank": 8,
+      "name": "食品饮料",
+      "change_pct": -2.1,
+      "source": "sample"
+    }
+  ],
+  "errors": []
+}

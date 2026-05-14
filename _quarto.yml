@@ -1,0 +1,23 @@
+project:
+  type: default
+  output-dir: output
+
+execute:
+  echo: false
+  warning: false
+  message: false
+
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    theme: flatly
+    embed-resources: true
+    number-sections: true
+  pdf:
+    documentclass: ctexart
+    papersize: a4
+    geometry:
+      - margin=2cm
+    number-sections: true
+
