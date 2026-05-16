@@ -26,18 +26,39 @@ import matplotlib
 from pathlib import Path
 from matplotlib import font_manager
 
-font_files = [
-    Path(r"C:/Windows/Fonts/NotoSansSC-VF.ttf"),
-    Path(r"C:/Windows/Fonts/simhei.ttf"),
-    Path(r"C:/Windows/Fonts/msyh.ttc"),
-    Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
-    Path("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc"),
-]
-for font_file in font_files:
-    if font_file.exists():
-        font_manager.fontManager.addfont(str(font_file))
+def get_chinese_font():
+    font_files = [
+        Path(r"C:/Windows/Fonts/NotoSansSC-VF.ttf"),
+        Path(r"C:/Windows/Fonts/simhei.ttf"),
+        Path(r"C:/Windows/Fonts/msyh.ttc"),
+        Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
+        Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"),
+        Path("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc"),
+        Path("/usr/share/fonts/truetype/arphic/ukai.ttc"),
+    ]
+    for font_file in font_files:
+        if font_file.exists():
+            font_manager.fontManager.addfont(str(font_file))
+            return font_manager.FontProperties(fname=str(font_file))
 
+    fallback_names = [
+        'Noto Sans CJK SC',
+        'Noto Sans SC',
+        'SimHei',
+        'Microsoft YaHei',
+        'DengXian',
+        'Arial Unicode MS',
+    ]
+    available_fonts = {font.name for font in font_manager.fontManager.ttflist}
+    for font_name in fallback_names:
+        if font_name in available_fonts:
+            return font_manager.FontProperties(family=font_name)
+    return font_manager.FontProperties()
+
+
+chinese_font = get_chinese_font()
 font_candidates = [
+    chinese_font.get_name(),
     'Noto Sans CJK SC',
     'Noto Sans SC',
     'SimHei',
@@ -45,11 +66,17 @@ font_candidates = [
     'DengXian',
     'Arial Unicode MS',
 ]
-available_fonts = {font.name for font in font_manager.fontManager.ttflist}
-selected_fonts = [font for font in font_candidates if font in available_fonts]
 matplotlib.rcParams['font.family'] = 'sans-serif'
-matplotlib.rcParams['font.sans-serif'] = selected_fonts + font_candidates
+matplotlib.rcParams['font.sans-serif'] = font_candidates
 matplotlib.rcParams['axes.unicode_minus'] = False
+
+
+def apply_chinese_font(ax):
+    ax.title.set_fontproperties(chinese_font)
+    ax.xaxis.label.set_fontproperties(chinese_font)
+    ax.yaxis.label.set_fontproperties(chinese_font)
+    for label in ax.get_xticklabels() + ax.get_yticklabels():
+        label.set_fontproperties(chinese_font)
 
 import matplotlib.pyplot as plt
 
@@ -90,8 +117,9 @@ fig, ax = plt.subplots(figsize=(10, 4))
 colors = ['#c0392b' if v >= 0 else '#27ae60' for v in sectors.values()]
 ax.barh(list(sectors.keys()), list(sectors.values()), color=colors)
 ax.axvline(0, color='black', linewidth=0.5)
-ax.set_title('本周申万行业涨跌幅排名（%）')
-ax.set_xlabel('涨跌幅（%）')
+ax.set_title('本周申万行业涨跌幅排名（%）', fontproperties=chinese_font)
+ax.set_xlabel('涨跌幅（%）', fontproperties=chinese_font)
+apply_chinese_font(ax)
 plt.tight_layout()
 plt.show()
 ```
