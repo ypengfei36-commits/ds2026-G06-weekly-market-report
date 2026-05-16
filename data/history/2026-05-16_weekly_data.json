@@ -1,0 +1,89 @@
+{
+  "上证指数": {
+    "close": 4135.389,
+    "change_pct": -1.0661127209116272,
+    "date": "2026-05-15",
+    "source": "akshare.stock_zh_index_daily"
+  },
+  "深证成指": {
+    "close": 15561.372,
+    "change_pct": -0.01558103077289319,
+    "date": "2026-05-15",
+    "source": "akshare.stock_zh_index_daily"
+  },
+  "创业板指": {
+    "close": 3929.064,
+    "change_pct": 3.5018840249854577,
+    "date": "2026-05-15",
+    "source": "akshare.stock_zh_index_daily"
+  },
+  "标普500": {
+    "close": 7408.5,
+    "change_pct": 0.12934032003708573,
+    "source": "akshare.index_us_stock_sina"
+  },
+  "纳斯达克": {
+    "close": 26225.1445,
+    "change_pct": -0.08355864033343652,
+    "source": "akshare.index_us_stock_sina"
+  },
+  "sectors": [
+    {
+      "rank": 1,
+      "name": "电机",
+      "change_pct": 4.77,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 2,
+      "name": "自动化设备",
+      "change_pct": 1.98,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 3,
+      "name": "小家电",
+      "change_pct": 1.83,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 4,
+      "name": "通用设备",
+      "change_pct": 1.27,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 5,
+      "name": "汽车零部件",
+      "change_pct": 1.16,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 6,
+      "name": "电子化学品",
+      "change_pct": 1.05,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 7,
+      "name": "白色家电",
+      "change_pct": 1.01,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 8,
+      "name": "工程机械",
+      "change_pct": 0.9,
+      "source": "akshare.stock_fund_flow_industry"
+    }
+  ],
+  "errors": [
+    "标普500获取失败：['Close']",
+    "标普500使用 akshare.index_us_stock_sina 备用接口获取",
+    "纳斯达克获取失败：['Close']",
+    "纳斯达克使用 akshare.index_us_stock_sina 备用接口获取",
+    "行业数据获取失败：module 'akshare' has no attribute 'sw_index_daily_indicator'",
+    "行业数据使用 akshare.stock_fund_flow_industry 备用接口获取"
+  ],
+  "generated_at": "2026-05-16T07:37:53"
+}

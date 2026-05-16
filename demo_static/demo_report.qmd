@@ -1,0 +1,79 @@
+---
+title: "A 股 & 美股周报"
+subtitle: "第 20 周（2026-05-08 至 2026-05-14）"
+author: "ds2026 第 6 组"
+date: today
+format:
+  html:
+    toc: true
+    theme: flatly
+    self-contained: true
+  pdf:
+    documentclass: article
+    papersize: a4
+    geometry: margin=2cm
+    include-in-header:
+      text: |
+        \usepackage{ctex}
+---
+
+# 本周市场概览
+
+```{python}
+#| echo: false
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS']
+matplotlib.rcParams['axes.unicode_minus'] = False
+
+# 阶段一：手动填写本周数据
+weekly_data = {
+    '上证指数': {'close': 3321.5, 'change_pct': 1.23},
+    '深证成指': {'close': 10543.2, 'change_pct': 0.87},
+    '创业板指': {'close': 2156.8, 'change_pct': -0.45},
+    '标普500':  {'close': 5432.1, 'change_pct': 2.15},
+    '纳斯达克': {'close': 17654.3, 'change_pct': 3.21},
+}
+
+df = pd.DataFrame(weekly_data).T.reset_index()
+df.columns = ['指数', '收盘价', '周涨跌幅(%)']
+df['方向'] = df['周涨跌幅(%)'].apply(lambda x: '▲' if x >= 0 else '▼')
+df['显示'] = df.apply(
+    lambda r: f"{r['方向']} {abs(r['周涨跌幅(%)']):.2f}%", axis=1
+)
+df[['指数', '收盘价', '显示']].style \
+    .map(lambda v: 'color: red' if '▲' in str(v) else 'color: green',
+         subset=['显示']) \
+    .set_caption('主要指数周度表现')
+```
+
+# 本周 A 股热点
+
+```{python}
+#| echo: false
+# 申万行业涨幅排名（静态版手动填写）
+sectors = {
+    '通信': 4.5, '电子': 3.2, '计算机': 2.8,
+    '汽车': 1.5, '医药': 0.3, '银行': -0.5,
+    '地产': -1.2, '食品饮料': -2.1,
+}
+
+# 绘制行业涨跌幅柱状图
+fig, ax = plt.subplots(figsize=(10, 4))
+colors = ['#c0392b' if v >= 0 else '#27ae60' for v in sectors.values()]
+ax.barh(list(sectors.keys()), list(sectors.values()), color=colors)
+ax.axvline(0, color='black', linewidth=0.5)
+ax.set_title('本周申万行业涨跌幅排名（%）')
+ax.set_xlabel('涨跌幅（%）')
+plt.tight_layout()
+plt.show()
+```
+
+# AI 生成摘要
+
+> **注意**：以下内容为阶段一手动撰写示例，阶段二将替换为 AI 自动生成。
+
+本周 A 股整体呈震荡上行态势，科技板块领涨，通信和电子行业表现突出。美股方面，标普500与纳斯达克指数继续上涨，显示海外市场风险偏好仍有支撑。行业层面，通信、电子、计算机涨幅居前，说明市场对科技成长方向保持关注；地产、食品饮料等板块表现偏弱，体现出市场结构分化仍然明显。下周需要继续关注国内政策预期、海外利率变化以及成交量能否持续放大。
+

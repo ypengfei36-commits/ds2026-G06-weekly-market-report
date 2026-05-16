@@ -1,0 +1,146 @@
+---
+title: "A 股 & 美股市场周报"
+subtitle: "AI Agent 自动生成股市周报"
+author: "ds2026 第 6 组"
+date: today
+output-file: "weekly_report"
+format:
+  html:
+    toc: true
+    theme: flatly
+    embed-resources: true
+  pdf:
+    documentclass: ctexart
+    papersize: a4
+    geometry: margin=2cm
+---
+
+```{python}
+#| echo: false
+import json
+from pathlib import Path
+
+import matplotlib
+import matplotlib.pyplot as plt
+import pandas as pd
+from IPython.display import Markdown, display
+
+matplotlib.rcParams["font.sans-serif"] = ["SimHei", "Microsoft YaHei", "Arial Unicode MS"]
+matplotlib.rcParams["axes.unicode_minus"] = False
+
+data_path = Path("data") / "weekly_data.json"
+summary_path = Path("data") / "ai_summary.txt"
+
+with open(data_path, "r", encoding="utf-8") as f:
+    weekly_data = json.load(f)
+
+with open(summary_path, "r", encoding="utf-8") as f:
+    ai_summary = f.read().strip()
+
+index_rows = []
+for name, value in weekly_data.items():
+    if isinstance(value, dict) and "change_pct" in value:
+        index_rows.append({
+            "指数": name,
+            "收盘价": value.get("close"),
+            "周涨跌幅(%)": value.get("change_pct"),
+            "日期": value.get("date", ""),
+            "数据来源": value.get("source", "akshare / yfinance"),
+        })
+
+index_df = pd.DataFrame(index_rows)
+if not index_df.empty:
+    index_df["收盘价"] = index_df["收盘价"].map(lambda x: f"{float(x):,.2f}" if pd.notna(x) else "")
+    index_df["周涨跌幅(%)"] = index_df["周涨跌幅(%)"].map(lambda x: f"{float(x):.2f}" if pd.notna(x) else "")
+
+sector_df = pd.DataFrame(weekly_data.get("sectors", []))
+if not sector_df.empty:
+    sector_df = sector_df.rename(columns={
+        "rank": "排名",
+        "name": "行业",
+        "change_pct": "周涨跌幅(%)",
+        "source": "数据来源",
+    })
+    sector_df["周涨跌幅(%)"] = pd.to_numeric(sector_df["周涨跌幅(%)"], errors="coerce")
+```
+
+# 本周市场概览
+
+```{python}
+#| echo: false
+display(index_df)
+```
+
+# A 股与美股指数对比
+
+```{python}
+#| echo: false
+plot_df = pd.DataFrame(index_rows)
+if plot_df.empty:
+    display(Markdown("主要指数数据暂未获取成功。"))
+else:
+    fig, ax = plt.subplots(figsize=(8, 4))
+    colors = ["#c0392b" if v >= 0 else "#27ae60" for v in plot_df["周涨跌幅(%)"]]
+    ax.bar(plot_df["指数"], plot_df["周涨跌幅(%)"], color=colors)
+    ax.axhline(0, color="black", linewidth=0.6)
+    ax.set_title("主要指数周涨跌幅对比")
+    ax.set_ylabel("周涨跌幅（%）")
+    ax.set_xlabel("指数")
+    plt.tight_layout()
+    plt.show()
+```
+
+# 行业热点
+
+```{python}
+#| echo: false
+if sector_df.empty:
+    display(Markdown("行业数据暂未获取成功。"))
+else:
+    display(sector_df[["排名", "行业", "周涨跌幅(%)", "数据来源"]])
+
+    fig, ax = plt.subplots(figsize=(9, 4.5))
+    chart_df = sector_df.head(8).copy()
+    colors = ["#c0392b" if v >= 0 else "#27ae60" for v in chart_df["周涨跌幅(%)"]]
+    ax.barh(chart_df["行业"], chart_df["周涨跌幅(%)"], color=colors)
+    ax.axvline(0, color="black", linewidth=0.6)
+    ax.invert_yaxis()
+    ax.set_title("本周行业涨跌幅排名（%）")
+    ax.set_xlabel("涨跌幅（%）")
+    plt.tight_layout()
+    plt.show()
+```
+
+# AI 生成摘要
+
+```{python}
+#| echo: false
+display(Markdown(ai_summary))
+```
+
+# 结果解读与局限
+
+本报告由脚本自动读取市场数据并生成摘要，适合作为课程项目中的自动化周报原型。当前数据接口可能受网络、访问频率、字段变动等因素影响，脚本已记录接口异常和备用接口使用情况。若行业或指数数据缺失，报告会保留可用数据并在文本中说明。
+
+AI 摘要基于 `data/weekly_data.json` 中已有字段生成，主要用于概括市场表现和形成周报文字，不构成任何投资建议。实际应用中还需要进一步考虑数据授权、模型输出稳定性、金融合规要求和人工校验流程。
+
+# 数据来源和运行说明
+
+```{python}
+#| echo: false
+generated_at = weekly_data.get("generated_at", "未记录")
+errors = weekly_data.get("errors", [])
+
+lines = [
+    f"- 数据生成时间：{generated_at}",
+    "- A 股指数数据：akshare",
+    "- 美股指数数据：yfinance；若失败则使用 akshare 备用接口",
+    "- 行业涨跌幅数据：akshare",
+]
+
+if errors:
+    lines.append("- 本次运行记录：")
+    lines.extend([f"  - {item}" for item in errors])
+
+display(Markdown("\n".join(lines)))
+```

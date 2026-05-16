@@ -1,0 +1,69 @@
+{
+  "上证指数": {
+    "close": 4135.389,
+    "change_pct": -1.0661127209116272,
+    "date": "8639"
+  },
+  "标普500": {
+    "close": 7501.2402,
+    "change_pct": 2.236988436005305,
+    "source": "akshare.index_us_stock_sina"
+  },
+  "sectors": [
+    {
+      "rank": 1,
+      "name": "电机",
+      "change_pct": 4.77,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 2,
+      "name": "自动化设备",
+      "change_pct": 1.98,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 3,
+      "name": "小家电",
+      "change_pct": 1.83,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 4,
+      "name": "通用设备",
+      "change_pct": 1.27,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 5,
+      "name": "汽车零部件",
+      "change_pct": 1.16,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 6,
+      "name": "电子化学品",
+      "change_pct": 1.05,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 7,
+      "name": "白色家电",
+      "change_pct": 1.01,
+      "source": "akshare.stock_fund_flow_industry"
+    },
+    {
+      "rank": 8,
+      "name": "工程机械",
+      "change_pct": 0.9,
+      "source": "akshare.stock_fund_flow_industry"
+    }
+  ],
+  "errors": [
+    "标普500获取失败：single positional indexer is out-of-bounds",
+    "标普500使用 akshare.index_us_stock_sina 备用接口获取",
+    "行业数据获取失败：module 'akshare' has no attribute 'sw_index_daily_indicator'",
+    "行业数据使用 akshare.stock_fund_flow_industry 备用接口获取"
+  ],
+  "generated_at": "2026-05-15T23:14:19"
+}
