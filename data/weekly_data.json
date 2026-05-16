@@ -85,5 +85,5 @@
     "行业数据获取失败：module 'akshare' has no attribute 'sw_index_daily_indicator'",
     "行业数据使用 akshare.stock_fund_flow_industry 备用接口获取"
   ],
-  "generated_at": "2026-05-16T07:37:53"
+  "generated_at": "2026-05-16T09:47:51"
 }

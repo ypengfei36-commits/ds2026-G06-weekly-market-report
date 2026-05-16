@@ -21,12 +21,36 @@ import json
 from pathlib import Path
 
 import matplotlib
-import matplotlib.pyplot as plt
 import pandas as pd
 from IPython.display import Markdown, display
+from matplotlib import font_manager
 
-matplotlib.rcParams["font.sans-serif"] = ["SimHei", "Microsoft YaHei", "Arial Unicode MS"]
+font_files = [
+    Path(r"C:/Windows/Fonts/NotoSansSC-VF.ttf"),
+    Path(r"C:/Windows/Fonts/simhei.ttf"),
+    Path(r"C:/Windows/Fonts/msyh.ttc"),
+    Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
+    Path("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc"),
+]
+for font_file in font_files:
+    if font_file.exists():
+        font_manager.fontManager.addfont(str(font_file))
+
+font_candidates = [
+    "Noto Sans CJK SC",
+    "Noto Sans SC",
+    "SimHei",
+    "Microsoft YaHei",
+    "DengXian",
+    "Arial Unicode MS",
+]
+available_fonts = {font.name for font in font_manager.fontManager.ttflist}
+selected_fonts = [font for font in font_candidates if font in available_fonts]
+matplotlib.rcParams["font.family"] = "sans-serif"
+matplotlib.rcParams["font.sans-serif"] = selected_fonts + font_candidates
 matplotlib.rcParams["axes.unicode_minus"] = False
+
+import matplotlib.pyplot as plt
 
 data_path = Path("data") / "weekly_data.json"
 summary_path = Path("data") / "ai_summary.txt"
